@@ -53,9 +53,6 @@ def main(
         #Begin readiness check
         readiness_result = check_readiness(sbom_file_path, python_version)
 
-
-
-
         #Print readiness results to the console in a nice table
         console = Console()
         result_table = Table('Package Name', f'Ready for {python_version}', box=box.MINIMAL_DOUBLE_HEAD, pad_edge=True, show_lines=True)
