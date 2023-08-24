@@ -18,16 +18,11 @@ def validate_pypi_python_version(pypi_response:dict, python_version_to_check:str
     looking_for = f'Programming Language :: Python :: {python_version_to_check}'
     list_of_classifiers = pypi_response.get('info').get('classifiers')
 
-
-    has_python_classifier = None
-
-    for classifier in list_of_classifiers:
-        
+    has_python_classifier = False
+    for classifier in list_of_classifiers:    
 
         if 'Programming Language :: Python ::' in classifier:
             has_python_classifier = True
-
-
 
     if not has_python_classifier:
         return 'N/A'

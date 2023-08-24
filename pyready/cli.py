@@ -5,8 +5,9 @@ Written By
 |  |  |  |__/ |  \ \__/ |  | |__/ 
                             
 """
+from pyready import __app_name__, __version__
 from pyready.ready import check_readiness
-from pyready.utils import get_ready_symbol
+from pyready.utils import get_ready_symbol, export_check
 
 from rich.console import Console
 from rich.table import Table
@@ -15,9 +16,6 @@ from typing_extensions import Annotated, Optional
 from rich import box
 import typer
 
-
-from pyready import __app_name__, __version__
-import pandas as pd
 import os
 
 
@@ -52,37 +50,27 @@ def main(
             )
             raise typer.Exit()
         
+        #Begin readiness check
         readiness_result = check_readiness(sbom_file_path, python_version)
 
+
+
+
+        #Print readiness results to the console in a nice table
         console = Console()
-
         result_table = Table('Package Name', f'Ready for {python_version}', box=box.MINIMAL_DOUBLE_HEAD, pad_edge=True, show_lines=True)
-
         for key in readiness_result.keys():
-
             symbol = get_ready_symbol(readiness_result, key)
-
             result_table.add_row(key, symbol)
 
         console.print(result_table)
-
+        
+        #Print Table Legend for Symbols
+        legend_table = Table('Symbol', 'Meaning', box=box.HORIZONTALS, show_lines=True)
+        legend_table.add_row('✔️', f'Officially supports Python {python_version}')
+        legend_table.add_row('❌', f'Does not officially support Python {python_version}')
+        legend_table.add_row('⚠️', f'Has not been tested for Python {python_version}, but could work.')
+        console.print(legend_table)
 
         if export:
-        
-            pandas_raw_data = []
-            for key in readiness_result.keys():
-                symbol = get_ready_symbol(readiness_result, key, force_utf8=True)
-
-                new_row = {
-                    'Package Name': key,
-                    f'Ready for Python {python_version}': symbol,
-                }
-
-                pandas_raw_data.append(new_row)
-
-            df = pd.DataFrame(pandas_raw_data)
-
-
-
-            df.columns = [['Reference SBOM file for full breakdown of sub-dependencies', ''], df.columns]
-            df.to_csv(export, index=False, encoding='utf-8-sig')
+            export_check(readiness_result, python_version, export)
