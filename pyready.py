@@ -3,6 +3,7 @@ from typing_extensions import Annotated
 from rich.console import Console
 from rich.table import Table
 from rich.progress import track
+from rich import box
 
 from typing import Union
 
@@ -83,7 +84,7 @@ def checks_pypi_api(package_name:str, package_version:str, python_version_to_che
 
     elif response.status_code in [404, 400]:
         typer.echo(
-            typer.style(f'Yo! We aint found shit on {package_name}!', fg=typer.colors.RED, bold=True)
+            typer.style(f'\nYo! We aint found shit on {package_name}!', fg=typer.colors.RED, bold=True)
         )
 
 
@@ -122,7 +123,7 @@ def main(python_version_to_check:str, sbom_file_path:str, export:Annotated[str, 
     
     if not os.path.exists(sbom_file_path):
         typer.echo(
-            typer.style("Provided file path does not exist in the file system!", fg=typer.colors.RED, bold=True)
+            typer.style("\nProvided file path does not exist in the file system!", fg=typer.colors.RED, bold=True, nl=True)
         )
         return
     
@@ -130,7 +131,7 @@ def main(python_version_to_check:str, sbom_file_path:str, export:Annotated[str, 
 
     console = Console()
 
-    result_table = Table('Package Name', f'Ready for {python_version_to_check}', box=None)
+    result_table = Table('Package Name', f'Ready for {python_version_to_check}', box=box.MINIMAL_DOUBLE_HEAD, pad_edge=True, show_lines=True)
 
     for key in readiness_result.keys():
 
