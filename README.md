@@ -14,15 +14,16 @@ TODO
 ### Get Some Help
 `pyready --help`
 
-![Alt text](https://i.imgur.com/9roLv54.png)
+![](https://i.imgur.com/9roLv54.png)
 ### Export SBOM File From GitHub Repository
-![Alt text](hl4LlZE.gif)
+![asdf](examples/hl4LlZE.gif)
 ### Run pyready CLI Command Using SBOM Export
 `pyready [OPTIONS] PYTHON_VERSION SBOM_FILE_PATH`
 
-![Alt text](https://i.imgur.com/ha3svSU.gif)
-![Alt text](https://i.imgur.com/8g8ddJs.png)
+![](examples/ha3svSU.gif)
+![](https://i.imgur.com/8g8ddJs.png)
 ### (Optional and Ugly) Get CSV Export of Results
 `pyready PYTHON_VERSION SBOM_FILE_PATH --export EXPORT_FILE_NAME`
-![Alt txt](https://i.imgur.com/R1F24id.png)
+
+![](https://i.imgur.com/R1F24id.png)
 
